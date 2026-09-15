@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Clics Adictivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.5s;
+    }
+    h1 {
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px #000;
+    }
+    #btn, #restart {
+      background: #fff;
+      color: #ff4b2b;
+      border: none;
+      padding: 20px 40px;
+      font-size: 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+      margin: 10px;
+    }
+    #btn:hover, #restart:hover {
+      transform: scale(1.1);
+      background: #ffe0e0;
+    }
+    #contador {
+      font-size: 32px;
+      margin-top: 20px;
+    }
+    #timer {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    .explosion {
+      animation: boom 0.3s ease;
+    }
+    @keyframes boom {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+    #ajustes {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    #ajustes button {
+      margin: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    #restart {
+      display: none; /* oculto al inicio */
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Juego de Clics 🔥</h1>
+  <button id="btn">¡Clic aquí!</button>
+  <button id="restart">Reiniciar</button>
+  <div id="contador">Clics: 0</div>
+  <div id="timer">Tiempo: 10s</div>
+
+  <div id="ajustes">
+    <p>Ajustes:</p>
+    <button onclick="cambiarFondo('linear-gradient(135deg,#00c6ff,#0072ff)')">Azul</button>
+    <button onclick="cambiarFondo('linear-gradient(135deg,#43cea2,#185a9d)')">Verde</button>
+    <button onclick="cambiarFondo('linear-gradient(135deg,#ff416c,#ff4b2b)')">Rojo</button>
+    <br>
+    <button onclick="comprarTiempo(20)">Comprar 20s 💰</button>
+    <button onclick="comprarTiempo(30)">Comprar 30s 💰</button>
+  </div>
+
+  <script>
+    let contador = 0;
+    let tiempo = 10;
+    let jugando = true;
+    let intervalo;
+
+    const btn = document.getElementById("btn");
+    const restart = document.getElementById("restart");
+    const contadorDiv = document.getElementById("contador");
+    const timerDiv = document.getElementById("timer");
+
+    function iniciarJuego() {
+      contador = 0;
+      tiempo = 10;
+      jugando = true;
+      btn.disabled = false;
+      btn.textContent = "¡Clic aquí!";
+      contadorDiv.textContent = "Clics: 0";
+      timerDiv.textContent = "Tiempo: " + tiempo + "s";
+      restart.style.display = "none"; // ocultar al reiniciar
+      clearInterval(intervalo);
+      intervalo = setInterval(() => {
+        tiempo--;
+        timerDiv.textContent = "Tiempo: " + tiempo + "s";
+        if (tiempo <= 0) {
+          clearInterval(intervalo);
+          jugando = false;
+          timerDiv.textContent = "⏰ ¡Fin del juego!";
+          btn.disabled = true;
+          btn.textContent = "Juego terminado";
+          restart.style.display = "inline-block"; // mostrar botón al terminar
+        }
+      }, 1000);
+    }
+
+    btn.addEventListener("click", () => {
+      if (!jugando) return;
+      contador++;
+      contadorDiv.textContent = "Clics: " + contador;
+      btn.classList.add("explosion");
+      setTimeout(() => btn.classList.remove("explosion"), 300);
+    });
+
+    restart.addEventListener("click", iniciarJuego);
+
+    function cambiarFondo(estilo) {
+      document.body.style.background = estilo;
+    }
+
+    function comprarTiempo(extra) {
+      if (!jugando) return;
+      tiempo += extra;
+      timerDiv.textContent = "Tiempo: " + tiempo + "s";
+      alert("Has comprado " + extra + " segundos (simulado) 💸");
+    }
+
+    iniciarJuego();
+  </script>
+</body>
+</html>
