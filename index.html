@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Juego de Clics Adictivo</title>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="click game icon.png">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -107,7 +111,7 @@
       btn.textContent = "¡Clic aquí!";
       contadorDiv.textContent = "Clics: 0";
       timerDiv.textContent = "Tiempo: " + tiempo + "s";
-      restart.style.display = "none"; // ocultar al reiniciar
+      restart.style.display = "none";
       clearInterval(intervalo);
       intervalo = setInterval(() => {
         tiempo--;
@@ -118,7 +122,7 @@
           timerDiv.textContent = "⏰ ¡Fin del juego!";
           btn.disabled = true;
           btn.textContent = "Juego terminado";
-          restart.style.display = "inline-block"; // mostrar botón al terminar
+          restart.style.display = "inline-block";
         }
       }, 1000);
     }
